@@ -1,11 +1,14 @@
 package cn.pzh.person.application;
 
+import cn.pzh.person.application.common.Person;
 import javax.servlet.http.HttpServletRequest;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -13,6 +16,9 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 @Controller
 @MapperScan (basePackages="cn.pzh.person.application.mapper")
 public class Application {
+
+	@Autowired
+	private Person person;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -38,5 +44,11 @@ public class Application {
 		mav.setViewName("personList");
 		mav.addObject("option", "success");
 		return mav;
+	}
+
+	@RequestMapping("/person")
+	@ResponseBody
+	public String person(HttpServletRequest request){
+		return person.toString();
 	}
 }
